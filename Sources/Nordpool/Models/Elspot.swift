@@ -22,7 +22,7 @@ public struct ElSpot: Identifiable, Hashable{
     }
     
     @available(macOS 13.0, iOS 16, *)
-    func priceNumber() -> Double{
+    public func priceNumber() -> Double{
         var number = self.Value
         number.replace(" ", with: "")
         number.replace(",", with: ".")

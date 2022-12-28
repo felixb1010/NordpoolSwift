@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Nordpool",
     platforms: [
-        .iOS(.v15), .macOS(.v12), .watchOS(.v8), .macCatalyst(.v15), .tvOS(.v15)
+        .iOS(.v15), .watchOS(.v8), .macOS(.v12), .macCatalyst(.v15), .tvOS(.v15)
     ],
     products: [
         .library(

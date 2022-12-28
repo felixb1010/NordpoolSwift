@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 public struct ElSpot: Identifiable, Hashable{
     public let id = UUID()
     public let TimeStamp: String
@@ -19,6 +20,14 @@ public struct ElSpot: Identifiable, Hashable{
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return dateFormatter.date(from: self.TimeStamp) ?? Date()
     }
+    
+    @available(macOS 13.0, iOS 16, *)
+    func priceNumber() -> Double{
+        var number = self.Value
+        number.replace(" ", with: "")
+        number.replace(",", with: ".")
+        return round(((Double(number)! / 1000) * 1.25) * 100) / 100
+    }
 }
 
 public extension [ElSpot]{
@@ -29,6 +38,31 @@ public extension [ElSpot]{
             return eventHour == currentHour
         }
     }
+    
+    @available(iOS 16.0, macOS 13.0, *)
+    func max() -> ElSpot? {
+            let maxValue = self.max(by: {(strøm1, strøm2)-> Bool in
+                return strøm1.priceNumber() < strøm2.priceNumber()
+            })
+            return maxValue
+    }
+    
+    @available(iOS 16.0, macOS 13.0, *)
+    func min() -> ElSpot?{
+            let minValue = self.min(by: {(strøm1, strøm2)-> Bool in
+                return strøm1.priceNumber() < strøm2.priceNumber()
+            })
+            return minValue
+        }
+    
+    @available(iOS 16.0, macOS 13.0, *)
+    func getChartData() -> [Double]?{
+            var doubls: [Double] = []
+            for item in self{
+                doubls.append(item.priceNumber())
+            }
+            return doubls
+        }
 }
 
 
@@ -102,30 +136,3 @@ public enum Zone: String {
     case FR
     case NL
 }
-
-
-//Areas
-/*
- SYS
- SE1
- SE2
- SE3
- SE4
- FI
- DK1
- DK2
- Oslo
- Kr.sand
- Bergen
- Molde
- Tr.heim
- Tromsø
- EE
- LV
- LT
- AT
- BE
- DE-LU
- FR
- NL
- */

@@ -33,7 +33,7 @@ public enum APIServiceError: CustomNSError {
             text = "Invalid Response Type"
         case let .httpStatusCodeFailed(statusCode):
                 text = "Error: Status Code \(statusCode)"
-        case let .invalidData:
+        case .invalidData:
             text = "Invalid Data"
         }
         return [NSLocalizedDescriptionKey: text]

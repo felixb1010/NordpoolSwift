@@ -73,7 +73,7 @@ public enum NordpoolTimeScale: String{
     case monthly = "/marketdata/page/13"
     case yearly = "/marketdata/page/14"
     
-    static let allCases: [NordpoolTimeScale] = [hourly, daily, weekly, monthly, yearly]
+    public static let allCases: [NordpoolTimeScale] = [hourly, daily, weekly, monthly, yearly]
 }
 
 public struct options: Encodable {
@@ -113,7 +113,7 @@ public enum NordpoolCurrencies: String{
     case NOK
     case DKK
     
-    static let allCases: [NordpoolCurrencies] = [EUR, SEK, NOK, DKK]
+    public static let allCases: [NordpoolCurrencies] = [EUR, SEK, NOK, DKK]
 }
 
 public enum Zone: String {
@@ -140,5 +140,5 @@ public enum Zone: String {
     case FR
     case NL
     
-    static let allCases: [Zone] = [.SYS, .SE1, .SE2, .SE3, .SE4, .FI, .DK1, .DK2, .Oslo, .Kristiansand, .Bergen, .Molde, .Trondheim, .Tromso, .EE, .LV, .LT, .AT, .BE, .DE_LU, .FR, .NL]
+    public static let allCases: [Zone] = [.SYS, .SE1, .SE2, .SE3, .SE4, .FI, .DK1, .DK2, .Oslo, .Kristiansand, .Bergen, .Molde, .Trondheim, .Tromso, .EE, .LV, .LT, .AT, .BE, .DE_LU, .FR, .NL]
 }

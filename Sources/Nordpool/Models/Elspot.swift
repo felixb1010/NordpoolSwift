@@ -8,10 +8,10 @@
 import Foundation
 
 
-public struct ElSpot: Identifiable, Hashable{
+public struct NPPrice: Identifiable, Hashable{
     public let id = UUID()
     public let TimeStamp: String
-    public let Area: Zone
+    public let Area: NPZone
     public let Value: String
     public let Currency: String
     
@@ -28,10 +28,40 @@ public struct ElSpot: Identifiable, Hashable{
         number.replace(",", with: ".")
         return round(((Double(number)! / 1000) * 1.25) * 100) / 100
     }
+    
+    static var now: NPPrice? {get async {
+        let price = try? await Nordpool.shared.currentPrice(area: .Oslo, currency: .NOK)
+        return price
+    }}
+    
+    static var hourly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .hourly)
+        return prices
+    }}
+    
+    static var daily: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .daily)
+        return prices
+    }}
+    
+    static var monthly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .monthly)
+        return prices
+    }}
+    
+    static var yearly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .yearly)
+        return prices
+    }}
+    
+    static var weekly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .weekly)
+        return prices
+    }}
 }
 
-public extension [ElSpot]{
-    func current() -> ElSpot?{
+public extension [NPPrice]{
+    func current() -> NPPrice?{
         let currentHour = Calendar.current.component(.hour, from: Date())
         return self.first{ item in
             let eventHour = Calendar.current.component(.hour, from: item.date())
@@ -40,7 +70,7 @@ public extension [ElSpot]{
     }
     
     @available(iOS 16.0, macOS 13.0, *)
-    func max() -> ElSpot? {
+    func max() -> NPPrice? {
             let maxValue = self.max(by: {(strøm1, strøm2)-> Bool in
                 return strøm1.priceNumber() < strøm2.priceNumber()
             })
@@ -48,7 +78,7 @@ public extension [ElSpot]{
     }
     
     @available(iOS 16.0, macOS 13.0, *)
-    func min() -> ElSpot?{
+    func min() -> NPPrice?{
             let minValue = self.min(by: {(strøm1, strøm2)-> Bool in
                 return strøm1.priceNumber() < strøm2.priceNumber()
             })
@@ -66,14 +96,14 @@ public extension [ElSpot]{
 }
 
 
-public enum NordpoolTimeScale: String{
+public enum NPTimeScale: String{
     case hourly = "/marketdata/page/10"
     case daily = "/marketdata/page/11"
     case weekly = "/marketdata/page/12"
     case monthly = "/marketdata/page/13"
     case yearly = "/marketdata/page/14"
     
-    public static let allCases: [NordpoolTimeScale] = [hourly, daily, weekly, monthly, yearly]
+    public static let allCases: [NPTimeScale] = [hourly, daily, weekly, monthly, yearly]
 }
 
 public struct options: Encodable {
@@ -82,9 +112,9 @@ public struct options: Encodable {
     public let startDate: Date
 }
 
-    public func parseJSON(data: Data, area: Zone) async throws -> [ElSpot] {
+    public func parseJSON(data: Data, area: NPZone) async throws -> [NPPrice] {
         do {
-            var objects: [ElSpot] = []
+            var objects: [NPPrice] = []
             guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {throw jsonError.parseError(error: "Invalid json")}
             let currency = json["currency"] as? String ?? "NOK"
             guard let data = json["data"] as? [String: Any] else {throw jsonError.parseError(error: "Inavlid json.data")}
@@ -93,7 +123,7 @@ public struct options: Encodable {
             for row in rows where row["IsExtraRow"] as? Bool == false {
                 let timeStamp = row["StartTime"] as? String ?? "No TimeStamp"
                 if let value = (row["Columns"] as? [[String: Any]])?.first(where: { $0["Name"] as? String == area.rawValue })?["Value"] as? String {
-                    let object = ElSpot(TimeStamp: timeStamp, Area: area, Value: value, Currency: currency)
+                    let object = NPPrice(TimeStamp: timeStamp, Area: area, Value: value, Currency: currency)
                     objects.append(object)
                 }
             }
@@ -107,16 +137,16 @@ public enum jsonError: Error{
     case parseError(error: String)
 }
 
-public enum NordpoolCurrencies: String{
+public enum NPCurrency: String{
     case EUR
     case SEK
     case NOK
     case DKK
     
-    public static let allCases: [NordpoolCurrencies] = [EUR, SEK, NOK, DKK]
+    public static let allCases: [NPCurrency] = [EUR, SEK, NOK, DKK]
 }
 
-public enum Zone: String {
+public enum NPZone: String {
     case SYS
     case SE1
     case SE2
@@ -140,5 +170,5 @@ public enum Zone: String {
     case FR
     case NL
     
-    public static let allCases: [Zone] = [.SYS, .SE1, .SE2, .SE3, .SE4, .FI, .DK1, .DK2, .Oslo, .Kristiansand, .Bergen, .Molde, .Trondheim, .Tromso, .EE, .LV, .LT, .AT, .BE, .DE_LU, .FR, .NL]
+    public static let allCases: [NPZone] = [.SYS, .SE1, .SE2, .SE3, .SE4, .FI, .DK1, .DK2, .Oslo, .Kristiansand, .Bergen, .Molde, .Trondheim, .Tromso, .EE, .LV, .LT, .AT, .BE, .DE_LU, .FR, .NL]
 }

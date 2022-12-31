@@ -29,14 +29,34 @@ public struct NPPrice: Identifiable, Hashable{
         return round(((Double(number)! / 1000) * 1.25) * 100) / 100
     }
     
-    static var all: [NPPrice]? {get async{
+    static var now: NPPrice? {get async {
+        let price = try? await Nordpool.shared.currentPrice(area: .Oslo, currency: .NOK)
+        return price
+    }}
+    
+    static var hourly: [NPPrice]? {get async {
         let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .hourly)
         return prices
     }}
     
-    static var current: NPPrice? {get async {
-        let price = try? await Nordpool.shared.currentPrice(area: .Oslo, currency: .NOK)
-        return price
+    static var daily: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .daily)
+        return prices
+    }}
+    
+    static var monthly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .monthly)
+        return prices
+    }}
+    
+    static var yearly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .yearly)
+        return prices
+    }}
+    
+    static var weekly: [NPPrice]? {get async {
+        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .weekly)
+        return prices
     }}
 }
 

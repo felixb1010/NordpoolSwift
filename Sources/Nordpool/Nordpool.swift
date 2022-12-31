@@ -1,6 +1,9 @@
 import Foundation
 
 public struct Nordpool {
+    
+    static let shared = Nordpool()
+    
     private let session = URLSession.shared
     
     private let baseURL = "https://www.nordpoolspot.com/api"
@@ -8,7 +11,7 @@ public struct Nordpool {
     public init() {
     }
     
-    public func currentPrice(area: Zone, currency: NordpoolCurrencies) async throws -> ElSpot {
+    public func currentPrice(area: NPZone, currency: NPCurrency) async throws -> NPPrice {
         guard let url = makeURL(timeScale: .hourly) else { throw APIServiceError.invalidURL }
         
         do {
@@ -23,14 +26,14 @@ public struct Nordpool {
         }
     }
     
-    public func price(area: Zone, currency: NordpoolCurrencies, TimeScale: NordpoolTimeScale, startDate: Date? = nil, endDate: Date? = nil) async throws -> [ElSpot] {
+    public func price(area: NPZone, currency: NPCurrency, TimeScale: NPTimeScale, startDate: Date? = nil, endDate: Date? = nil) async throws -> [NPPrice] {
         guard let url = makeURL(timeScale: TimeScale, currency: currency, startDate: startDate, endDate: endDate) else { throw APIServiceError.invalidURL }
         let (data, _): (Data, Int) = try await fetch(url: url)
         let parsed = try await parseJSON(data: data, area: area)
         return parsed
     }
     
-    private func makeURL(timeScale: NordpoolTimeScale, currency: NordpoolCurrencies = .NOK, startDate: Date? = nil, endDate: Date? = nil) -> URL? {
+    private func makeURL(timeScale: NPTimeScale, currency: NPCurrency = .NOK, startDate: Date? = nil, endDate: Date? = nil) -> URL? {
         guard var urlComponents = URLComponents(string: "\(baseURL)\(timeScale.rawValue)") else { return nil }
         urlComponents.queryItems = [
             URLQueryItem(name: "currency", value: currency.rawValue),

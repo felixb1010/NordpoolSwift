@@ -137,7 +137,7 @@ public enum jsonError: Error{
     case parseError(error: String)
 }
 
-public enum NPCurrency: String{
+public enum NPCurrency: String, Codable {
     case EUR
     case SEK
     case NOK
@@ -146,7 +146,7 @@ public enum NPCurrency: String{
     public static let allCases: [NPCurrency] = [EUR, SEK, NOK, DKK]
 }
 
-public enum NPZone: String {
+public enum NPZone: String, Codable {
     case SYS
     case SE1
     case SE2

@@ -46,14 +46,12 @@ public struct NPPrice: Identifiable, Hashable{
     
     public static func now(_ opts: NPOptions) async throws -> NPPrice {
         let price = try await Nordpool.shared.currentPrice(area: opts.zone, currency: opts.currency)
-        guard let a = price else {throw APIServiceError.invalidData}
-        return a
+        return price
     }
     
     public static func price(_ opts: NPOptions) async throws -> [NPPrice] {
         let price = try await Nordpool.shared.price(area: opts.zone, currency: opts.currency, TimeScale: opts.timeScale)
-        guard let a = price else {throw APIServiceError.invalidData}
-        return a
+        return price
     }
 }
 

@@ -169,7 +169,7 @@ public enum NPZone: String, Codable {
 }
 
 extension NPPrice {
-    static let chartData = [
+    public static let chartData = [
         NPPrice(TimeStamp: "2022-05-01T12:00:00Z", Area: .Oslo, Value: "1002,2", Currency: "NOK"),
         NPPrice(TimeStamp: "2022-05-01T12:30:00Z", Area: .Oslo, Value: "1502,2", Currency: "NOK"),
         NPPrice(TimeStamp: "2022-05-01T13:00:00Z", Area: .Oslo, Value: "2002,2", Currency: "NOK"),

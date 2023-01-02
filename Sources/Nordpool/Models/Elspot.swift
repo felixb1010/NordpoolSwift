@@ -13,6 +13,14 @@ public struct NPOptions {
     public let tax: Double
     public let fee: Double
     public let timeScale: NPTimeScale
+    
+    public init(zone: NPZone, currency: NPCurrency, tax: Double, fee: Double, timeScale: NPTimeScale) {
+        self.zone = zone
+        self.currency = currency
+        self.tax = tax
+        self.fee = fee
+        self.timeScale = timeScale
+    }
 }
 
 public struct NPPrice: Identifiable, Hashable{

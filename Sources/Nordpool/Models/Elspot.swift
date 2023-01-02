@@ -7,6 +7,13 @@
 
 import Foundation
 
+public struct NPOptions {
+    public let zone: NPZone
+    public let currency: NPCurrency
+    public let tax: Double
+    public let fee: Double
+    public let timeScale: NPTimeScale
+}
 
 public struct NPPrice: Identifiable, Hashable{
     public let id = UUID()
@@ -22,42 +29,24 @@ public struct NPPrice: Identifiable, Hashable{
     }
     
     @available(macOS 13.0, iOS 16, *)
-    public func priceNumber() -> Double{
+    public func priceNumber(tax: Double = 0.0, fee: Double = 0.0) -> Double{
         var number = self.Value
         number.replace(" ", with: "")
         number.replace(",", with: ".")
-        return round(((Double(number)! / 1000) * 1.25) * 100) / 100
+        return round(((Double(number)! / 1000) * (1.0 + tax) + fee) * 100) / 100
     }
     
-    static var now: NPPrice? {get async {
-        let price = try? await Nordpool.shared.currentPrice(area: .Oslo, currency: .NOK)
-        return price
-    }}
+    public static func now(_ opts: NPOptions) async throws -> NPPrice {
+        let price = try? await Nordpool.shared.currentPrice(area: opts.zone, currency: opts.currency)
+        guard let a = price else {throw APIServiceError.invalidData}
+        return a
+    }
     
-    static var hourly: [NPPrice]? {get async {
-        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .hourly)
-        return prices
-    }}
-    
-    static var daily: [NPPrice]? {get async {
-        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .daily)
-        return prices
-    }}
-    
-    static var monthly: [NPPrice]? {get async {
-        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .monthly)
-        return prices
-    }}
-    
-    static var yearly: [NPPrice]? {get async {
-        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .yearly)
-        return prices
-    }}
-    
-    static var weekly: [NPPrice]? {get async {
-        let prices = try? await Nordpool.shared.price(area: .Oslo, currency: .NOK, TimeScale: .weekly)
-        return prices
-    }}
+    public static func price(_ opts: NPOptions) async throws -> [NPPrice] {
+        let price = try? await Nordpool.shared.price(area: opts.zone, currency: opts.currency, TimeScale: opts.timeScale)
+        guard let a = price else {throw APIServiceError.invalidData}
+        return a
+    }
 }
 
 public extension [NPPrice]{

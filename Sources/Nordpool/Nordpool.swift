@@ -13,7 +13,6 @@ public struct Nordpool {
     
     public func currentPrice(area: NPZone, currency: NPCurrency) async throws -> NPPrice {
         guard let url = makeURL(timeScale: .hourly) else { throw APIServiceError.invalidURL }
-        
         do {
             let (data, _): (Data, Int) = try await fetch(url: url)
             let parsed = try await parseJSON(data: data, area: area)

@@ -170,10 +170,30 @@ public enum NPZone: String, Codable {
 
 extension NPPrice {
     public static let chartData = [
-        NPPrice(TimeStamp: "2022-05-01T12:00:00Z", Area: .Oslo, Value: "1002,2", Currency: "NOK"),
-        NPPrice(TimeStamp: "2022-05-01T12:30:00Z", Area: .Oslo, Value: "1502,2", Currency: "NOK"),
-        NPPrice(TimeStamp: "2022-05-01T13:00:00Z", Area: .Oslo, Value: "2002,2", Currency: "NOK"),
-        NPPrice(TimeStamp: "2022-05-01T13:30:00Z", Area: .Oslo, Value: "2502,2", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T00:00:00", Area: .SE1, Value: "828,11", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T01:00:00", Area: .SE1, Value: "776,83", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T02:00:00", Area: .SE1, Value: "776,94", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T03:00:00", Area: .SE1, Value: "750,67", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T04:00:00", Area: .SE1, Value: "760,02", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T05:00:00", Area: .SE1, Value: "810,56", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T06:00:00", Area: .SE1, Value: "1 076,83", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T07:00:00", Area: .SE1, Value: "1 072,73", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T08:00:00", Area: .SE1, Value: "1 075,67", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T09:00:00", Area: .SE1, Value: "1 047,09", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T10:00:00", Area: .SE1, Value: "997,39", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T11:00:00", Area: .SE1, Value: "1 134,30", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T12:00:00", Area: .SE1, Value: "1 139,24", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T13:00:00", Area: .SE1, Value: "1 145,86", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T14:00:00", Area: .SE1, Value: "1 163,09", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T15:00:00", Area: .SE1, Value: "1 248,63", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T16:00:00", Area: .SE1, Value: "1 228,35", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T17:00:00", Area: .SE1, Value: "1 213,53", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T18:00:00", Area: .SE1, Value: "1 260,92", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T19:00:00", Area: .SE1, Value: "1 270,59", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T20:00:00", Area: .SE1, Value: "1 260,61", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T21:00:00", Area: .SE1, Value: "1 257,98", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T22:00:00", Area: .SE1, Value: "1 200,71", Currency: "NOK"),
+        NPPrice(TimeStamp: "2023-01-03T23:00:00", Area: .SE1, Value: "984,15", Currency: "NOK")
     ]
 
 }
